@@ -1,4 +1,4 @@
-defmodule Day01 do
+defmodule Day01Part1 do
   def run(file_path) do
     file_path
     |> process_input()
@@ -43,9 +43,8 @@ defmodule Day01 do
         [diff] ++ acc
     end)
   end
+ end
 
-end
-
-Day01.run("./lib/day_01/input.txt")
-Day01.run("./lib/day_01/test1.txt")
-Day01.run("./lib/day_01/test2.txt")
+Day01Part1.run("./lib/day_01/input.txt")
+Day01Part1.run("./lib/day_01/test1.txt")
+Day01Part1.run("./lib/day_01/test2.txt")
