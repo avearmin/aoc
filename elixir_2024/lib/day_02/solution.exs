@@ -8,6 +8,14 @@ defmodule Day02 do
     |> IO.inspect()
   end
 
+  def run_part2(file_path) do
+    file_path
+    |> process_input()
+    |> determine_all_reports_safety_with_dampener()
+    |> Enum.count(fn x -> x == true end)
+    |> IO.inspect()
+  end
+
   def process_input(file_path) do
     case File.read(file_path) do
       {:ok, content} -> 
@@ -65,7 +73,25 @@ defmodule Day02 do
         :asc
     end
   end
+  
+  def determine_all_reports_safety_with_dampener(reports) do
+    Enum.map(reports, fn report -> determine_report_safety_with_dampener(report) end) 
+  end
+
+  def determine_report_safety_with_dampener(report) do
+    safe?(report, :start) or safe_with_dampen?([], report) 
+  end
+
+  def safe_with_dampen?(_acc, []), do: false
+  def safe_with_dampen?(acc, [head | tail]) do
+    if safe?(acc ++ tail, :start) do
+      true
+    else
+      safe_with_dampen?(acc ++ [head], tail)
+    end 
+  end
 
 end
 
 Day02.run_part1("./lib/day_02/input.txt")
+Day02.run_part2("./lib/day_02/input.txt")
