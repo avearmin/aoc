@@ -12,8 +12,8 @@ defmodule Day03 do
   def run_part2(input) do
     input
     |> File.read!()
-    |> clean_input_dont()
-    |> IO.inspect()
+    |> clean_input_of_donts()
+    |> clean_input()
     |> extract_nums()
     |> mul_pairs()
     |> Enum.sum()
@@ -24,8 +24,10 @@ defmodule Day03 do
     Regex.scan(~r/mul\(-?\d+,-?\d+\)/, input) |> List.flatten()
   end
   
-  def clean_input_dont(input) do
-    Regex.scan(~r/^(?:.?|do\(\)|)(?:.?)mul\(-?\d+,-?\d+\)(?:.?)(?:dont\(\)|do\(\)|.?)$/, input) |> List.flatten()
+  def clean_input_of_donts(input) do
+    String.split(input, ~r/(?=do\(\)|don't\(\))/) 
+    |> Enum.filter(fn x -> not String.starts_with?(x, "don't()") end)
+    |> Enum.join("")
   end
 
   def extract_nums(cleaned_input) do
